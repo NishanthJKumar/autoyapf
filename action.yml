@@ -1,5 +1,5 @@
-name: 'autoyapf'
-author: 'Mritunjay Sharma'
+name: 'python-autoyapf'
+author: 'Nishanth Kumar'
 description: 'Automating Python formatting using yapf'
 inputs:
   args:
