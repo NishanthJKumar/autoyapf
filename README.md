@@ -1,19 +1,13 @@
-# autoyapf
-
-[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-autoyapf-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAM6wAADOsB5dZE0gAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAERSURBVCiRhZG/SsMxFEZPfsVJ61jbxaF0cRQRcRJ9hlYn30IHN/+9iquDCOIsblIrOjqKgy5aKoJQj4O3EEtbPwhJbr6Te28CmdSKeqzeqr0YbfVIrTBKakvtOl5dtTkK+v4HfA9PEyBFCY9AGVgCBLaBp1jPAyfAJ/AAdIEG0dNAiyP7+K1qIfMdonZic6+WJoBJvQlvuwDqcXadUuqPA1NKAlexbRTAIMvMOCjTbMwl1LtI/6KWJ5Q6rT6Ht1MA58AX8Apcqqt5r2qhrgAXQC3CZ6i1+KMd9TRu3MvA3aH/fFPnBodb6oe6HM8+lYHrGdRXW8M9bMZtPXUji69lmf5Cmamq7quNLFZXD9Rq7v0Bpc1o/tp0fisAAAAASUVORK5CYII=)](https://github.com/marketplace/actions/autoyapf)
+# python-autoyapf
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 
 Worried whether your Python code is following the style  guidelines or not? Well, you don't need to do that now :smile:
 
-**autoyapf** is a GitHub action for [yapf](https://github.com/google/yapf), an open-source tool that automatically formats Python code to conform to the PEP 8 style guide. 
-It is in essence, the algorithm that takes the code and reformats it to the best formatting that conforms to the style guide, even if the original code didn't violate the style guide.
+**python-autoyapf** is a GitHub action for [yapf](https://github.com/google/yapf), an open-source tool that automatically formats Python code to conform to the PEP 8 style guide. 
 
-This action is designed to be used in conjunction with the 'push' trigger. In simple words - everytime **the maintainer pushes the code from their own playground or merges a Pull Request from a contributor it will be 
-formatted automatically with the PEP 8 Style guidelines** using the *yapf* tool. This action is a win-win situation for **both contributors and maintainers** of projects involving Python! Yes, you heard it right! 
+This action includes slight modifications to the original [autoyapf](https://github.com/mritunjaysharma394/autoyapf) action; most of the credit here goes to the original action's author!
 
-This action will immensely help in increasing the speed of development cycle of projects as you will no longer need to worry about whether clean code is being produced 
-or not as **autoyapf** action will take care of that :confetti_ball:
 
 ## Usage
 ### Step 1:
@@ -36,14 +30,14 @@ jobs:
       - uses: actions/checkout@master
         with:
           ref: ${{ github.head_ref }}
-      - name: autoyapf
-        id: autoyapf
-        uses: mritunjaysharma394/autoyapf@v2
+      - name: python-autoyapf
+        id: python-autoyapf
+        uses: bdaiinstitute/python-autoyapf@v2.0.1-beta
         with:
           args: --style pep8 --recursive --in-place .
       - name: Check for modified files
         id: git-check
-        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
       - name: Push changes
         if: steps.git-check.outputs.modified == 'true'
         run: |
